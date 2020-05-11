@@ -1,6 +1,6 @@
 以下のCステートメントをMIPSアセンブリにかきかえよ.
 f=g+(h-5);
 
-add t0, g, $zero
-sub t1, h, 5
-add f, t0, t1
+add t0, g, $zero  # 一時変数t0にg+0の結果を入れる
+sub t1, h, 5      # 一時変数t1にh-5の結果を入れる
+add f, t0, t1     # t0+t1の結果を変数fに入れる
