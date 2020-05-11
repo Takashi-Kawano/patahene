@@ -2,5 +2,7 @@
 add f, g, h
 add f, i, j
 
+---
+
 f=g+h;  # g+hの結果を変数fに入れる
 f=i+j;  # i+jの結果を変数fに入れる
