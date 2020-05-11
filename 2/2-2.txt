@@ -1,0 +1,6 @@
+以下のMIPSアセンブリをCステートメントに書き換えよ。
+add f, g, h
+add f, i, j
+
+f=g+h;
+f=i+j;
