@@ -1,0 +1,6 @@
+以下のCステートメントをMIPSアセンブリにかきかえよ.
+f=g+(h-5);
+
+add t0, g, $zero
+sub t1, h, 5
+add f, t0, t1
