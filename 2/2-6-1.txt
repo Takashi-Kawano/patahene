@@ -1,0 +1,56 @@
+アドレス データ
+24 2
+38 4
+32 3
+36 6
+40 1
+
+--
+
+2.6.1
+
+データを昇順にソートして最小の値を最小のメモリロケーションに収めるCコードを書け
+
+条件
+- Arrayという名前のC変数
+- int型の配列
+- 最初の数値は配列の最初の要素
+- マシンバイトアドレス方式であり、1ワード4バイトで構成
+
+--
+
+Array[24] = 2
+Array[38] = 4
+Array[32] = 3
+Array[36] = 6
+Array[40] = 1
+
+解答例をみて、Cではメモリアドレスを意識しなくて良いことに気づいた
+
+--
+
+int Array[5];
+int temp1, temp2;
+
+Array[0] = 2;
+Array[1] = 4;
+Array[2] = 3;
+Array[3] = 6;
+Array[4] = 1;
+
+temp1 = Array[0];
+temp2 = Array[1];
+
+Array[0] = Array[4];
+Array[1] = temp1;
+
+Array[4] = Array[3];
+Array[3] = temp2;
+
+出力
+./a.out
+Array[0]は、1
+Array[1]は、2
+Array[2]は、3
+Array[3]は、4
+Array[4]は、6
