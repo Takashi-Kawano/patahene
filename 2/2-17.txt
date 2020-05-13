@@ -1,0 +1,14 @@
+op=0x23, rs=1, rt=2, const=0x4
+
+--
+
+それぞれのフィールドを2進数へ変換
+
+100011 00001 00010 0000000000000100
+
+LW命令 I形式
+(以下URL opcodeを元に判断)
+
+https://opencores.org/projects/plasma/opcodes
+
+rsとrtは5bitという決まり？
