@@ -1,0 +1,54 @@
+LOOP: slt $t2, $0, $t1  # $t0<$t1なら$t2=1, $t0>=$t1なら$t2=0
+      beq $t2, $0, DONE # $t2==$0ならDONEラベルに移動
+      subi $t1, $t1, 1
+      addi $s2, $s2, 2
+      j    LOOP
+DONE:
+
+--
+
+2.26.1
+
+$t1 = 10
+$t2 = 0
+
+$t2 = ?
+
+LOOP: slt $t2, $0, $t1  # $t2 = 1
+      beq $t2, $0, DONE #
+      subi $t1, $t1, 1  # $t1 = 9
+      addi $s2, $s2, 2
+      j    LOOP
+DONE:
+
+$s2が何を指すのか問題文にないが、、
+$t2 = 1
+
+
+2.26.2
+
+$s1, $s2, $t1, $t2
+整数A, B, i , temp
+
+
+int A, B, i, temp;
+
+main() {
+    temp;
+    while(temp == 0) {
+        if (0 < i) {
+            temp = 1;
+        } else {
+            temp = 0;
+        }
+        i = i - 1;
+        B = B - 2;
+    }
+}
+
+????
+$s1どこでつかうんだ・・・
+
+2.26.3
+
+$t1がNに初期化されていてもMIPSの命令の数は6(変わらない)
