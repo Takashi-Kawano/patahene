@@ -1,0 +1,5 @@
+not $t1, $t2
+
+A NOR 0 = NOT(A OR 0) = NOT(A)
+
+nor $t1, $t2, $zero

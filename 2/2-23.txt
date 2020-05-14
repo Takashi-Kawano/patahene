@@ -1,0 +1,10 @@
+$t0 = 0x00101000
+$t2?
+
+      slt $t2, $0, $t0   # set on less than $0が$t0よりも小さいとき$t2=1, 小さくないので$t2=0
+      bne $t2, $0, ELSE  # branch if not equal でELSEラベルへジャンプ
+      J   DONE           # DONEラベルへジャンプ
+ELSE: addi $t2, $t2, 2
+DONE:
+
+$t2 = $0
