@@ -1,0 +1,37 @@
+      addi $t1, $0, $0
+LOOP: lw $s1, 0($s0)
+      add $s2, $s2, $s1
+      addi $s0, $s0, 4
+      addi $t1, $t1, 1
+      slti $t2, $t1, 100
+      bne  $t2, $s0, LOOP
+
+Cコードへ翻訳
+Cレベルの整数iがレジスタ$t1
+整数resultが$s2
+MemArrayのベースアドレスがレジスタ$s0に保持
+
+--
+
+int i, result;
+int tmp_s1, tmp_t2;
+
+i = 0;
+
+while {
+    tmp_s1 = MemArray[0];
+    result = result + tmp_s1;
+    MemArray[0] = MemArray[0] + 4;
+    i = i + 1;
+
+    if (i < 100) {
+        tmp_t2 = 1;
+    } else {
+        tmp_t2 = 0;
+    }
+
+    if (tmp_t2 == MemArray[0])
+        break;
+}
+
+ぐぬぬ
