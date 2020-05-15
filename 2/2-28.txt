@@ -1,0 +1,32 @@
+MIPSの命令数: 14
+
+変数a, bが10と1に初期化
+配列Dの全ての要素が0に初期化した場合
+ループが完了するまでにMIPSの命令を
+
+
+$s0=10
+$s1=1
+
+       add $t0, $zero, $zero # i=0 ( $t0=0 ) 最初のfor
+Loop1: slt $t2, $t0, $s0     # i<a ( $t0<$s0 -> $t2=1, $t0>=$s0 -> $t2=0 )
+       beq $t2, $zero, Exit  # $t2==0 -> Exitラベルにjump
+       add $t1, $zero, $zero # j=0 $t1=0 次のfor
+Loop2: slt $t2, $t1, $s1     # j<b ( $t1<$s1 -> $t2=1, $t1>=$s1 -> $t2=0 )
+       beq $t2, $zero, Loop3 # $t2==0 -> Loop3ラベルにjump
+       add $t2, $t0, $t1     # $t2=i+j
+       sll $t3, $t1, 2       # $t3=j*4(2bit左シフト)
+       add $t4, $t3, $s2    # $t4=D[j*4]
+       sw  $t2, 0($t4)      # D[j*4]=i+j
+       addi $t1, $t1, 1     # j+=1
+       j Loop2
+Loop3: addi $t0, $t0, 1     # i+=1
+       j Loop1
+Exit:
+
+$t0が0~9までは同じループなので
+1ループ15つ10回繰り返すので(Exit:は単なるラベルで命令ではない)
+15*10=160
+$t0が10のとき命令数は3つで終わる
+よって
+150+3=153つの命令が実行される
