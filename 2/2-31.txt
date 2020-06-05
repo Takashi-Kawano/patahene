@@ -1,0 +1,20 @@
+int ??( int n ) {
+    if ( n == 0 )
+        return 0;
+    else if ( n == 1 )
+        return 1;
+    else
+        return ??( n - 1 ) + ??( n - 2 );
+    }
+
+
+$t0をnとする
+$t1を返り値を収めるレジスタとする
+
+        beq $t0, $zero, LABEL1
+        beq $t0, 1, LABEL2
+        j LABEL3
+LABEL1: add $t1, $zero, $zero
+LABEL2: addi $t1, $zero, 1
+LABEL3: sub $t2, $t0, 1
+        sub $t3, $t0, 2
