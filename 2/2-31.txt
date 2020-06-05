@@ -1,11 +1,11 @@
-int ??( int n ) {
-    if ( n == 0 )
-        return 0;
-    else if ( n == 1 )
-        return 1;
-    else
-        return ??( n - 1 ) + ??( n - 2 );
-    }
+int fib(int n) {
+  if (n == 0)
+    return 0;
+  else if (n == 1)
+    return 1;
+  else
+    return fib(n - 1) + fib(n - 2);
+}
 
 
 $t0をnとする
@@ -18,3 +18,37 @@ LABEL1: add $t1, $zero, $zero
 LABEL2: addi $t1, $zero, 1
 LABEL3: sub $t2, $t0, 1
         sub $t3, $t0, 2
+
+--
+
+fib:
+    addi $sp, $sp, -12
+    sw   $s0, 8($sp)
+    sw   $ra, 4($sp)
+    sw   $a0, 0($sp)
+    beq  $a0, $zero, L1
+
+    beq  $a0, 1, L2
+
+    addi $a0, $a0, -1 # n-1
+    jal  fib          # fib(n-1)
+    add  $s0, $v0, $zero # fib(n-1)の結果を$s0に保持
+    addi $a0, $a0, -1 # n-1-1=n-2
+    jal  fib          # fib(n-2)
+    add  $v0, $v0, $s0 # fib(n-1) + fib(n-2)
+    lw $a0, 0($sp)
+    lw $ra, 4($sp)
+    lw $s0, 8($sp)
+    addi $sp, $sp, 12
+    jr $ra
+
+L1: addi $v0, $zero, $zero
+    addi $sp, $sp, 12
+    jr   $ra
+
+L2: addi $v0, $zero, 1
+    addi $sp, $sp, 12
+    jr   $ra
+
+
+$v0 に fib(n-1)の戻り値をいれたままfib(n-2)を呼び出すと破棄されてしまうので $s0 に保持するのか
