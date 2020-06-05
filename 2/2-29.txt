@@ -4,7 +4,7 @@ LOOP: lw $s1, 0($s0)
       addi $s0, $s0, 4
       addi $t1, $t1, 1
       slti $t2, $t1, 100
-      bne  $t2, $s0, LOOP
+      bne  $t2, $0, LOOP # bne  $t2, $s0, LOOP (本文ではこうだが$s0->$0へ修正)
 
 Cコードへ翻訳
 Cレベルの整数iがレジスタ$t1
@@ -35,3 +35,18 @@ while {
 }
 
 ぐぬぬ
+
+--
+
+for (i = 0, int *p = MemArray; ; ) {
+    result += *(p++);
+    if (++i >= 100) break;
+}
+
+--
+
+for (i = 0; ; ) {
+    result += MemArray[i++];
+    if (i >= 100) break;
+}
+

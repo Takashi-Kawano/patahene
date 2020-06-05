@@ -1,8 +1,19 @@
       addi $t1, $0, $0
 LOOP: lw $s1, 0($s0)
       add $s2, $s2, $s1
-      addi $s0, $s0, 4    # $s0+4 は、1($s0)ってことで良いのか?
+      addi $s0, $s0, 4    # MemArray[1]
       addi $t1, $t1, 1
       slti $t2, $t1, 100
-      bne  $t2, $s0, LOOP #
+      bne  $t2, $0, LOOP #
 
+--
+
+      addi $t1, $0, $0
+      lw $s1, 0($s0)     # hoge = MemArray[0] はループの外に出してもよさそう
+LOOP: add $s2, $s2, $s1
+      addi $s0, $s0, 4
+      addi $t1, $t1, 1
+      slti $t2, $t1, 100
+      bne  $t2, $0, LOOP
+
+2.7節を読むに、条件命令を追加することで命令数を少なくさせるようだが...
