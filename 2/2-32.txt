@@ -1,0 +1,100 @@
+インライン展開したCコード
+
+int fib(int n) {
+  if (n == 0)
+    return 0;
+  else if (n == 1)
+    return 1;
+  else {
+    int f1 = fib(n - 1);
+
+    int f2;
+    {
+      int n2 = n - 2;
+      if (n2 == 0)
+        f2 = 0;
+      else if (n2 == 1)
+        f2 = 1;
+      else
+        f2 = fib(n2 - 1) + fib(n2 - 2);
+    }
+    return f1 + f2;
+  }
+}
+
+--
+
+fib:
+    addi $sp, $sp, -16
+    sw   $s0, 12($sp)
+    sw   $s1, 8($sp)
+    sw   $ra, 4($sp)
+    sw   $a0, 0($sp)
+    beq  $a0, $zero, L1
+
+    beq  $a0, 1, L2
+
+    addi $a0, $a0, -1 # n-1
+    jal  fib          # fib(n-1)
+
+    add  $s0, $v0, $zero # fib(n-1)の結果を$s0に保持
+
+    addi $t0, $t0, -2 # ここからインライン展開したところ
+    beq $t0, $zero, L3
+    beq $t0, 1, L4
+
+    addi $a0, $t0, -1
+    jal  fib          # fib(n2-1) 
+    add  $s1, $v0, 0 # fib(n2-1)の戻り値
+    addi $a0, $t0, -2 # fib(n2-2)
+    jal fib
+
+    add $t2, $s1, $v0 # f2=fib(n2-1)+fib(n2-2)
+
+    lw $a0, 0($sp)
+    lw $ra, 4($sp)
+    lw $s1, 8($sp)
+    lw $s0, 12($sp)
+    addi $sp, $sp, 16
+    jr $ra
+
+L1: addi $v0, $zero, $zero
+    addi $sp, $sp, 16
+    jr   $ra
+
+L2: addi $v0, $zero, 1
+    addi $sp, $sp, 16
+    jr   $ra
+
+L3: addi $t1, $zero, 0
+    add $v0, $s0, $t1
+    lw $a0, 0($sp)
+    lw $ra, 4($sp)
+    lw $s1, 8($sp)
+    lw $s0, 12($sp)
+    addi $sp, $sp, 16
+    jr $ra
+
+L4: addi $t1, 1, 0
+    add $v0, $s0, $t1
+    lw $a0, 0($sp)
+    lw $ra, 4($sp)
+    lw $s1, 8($sp)
+    lw $s0, 12($sp)
+    addi $sp, $sp, 16
+    jr $ra
+
+
+fib(5)のときの命令数
+
+fib(5), fib(4) のとき25 x 2
+fib(3) 21
+fib(2) 20
+fib(1) 10
+fib(0) 9
+
+命令数は合計110回
+
+2.31のMIPSアセンブリのときの命令数は17+17+17+17+9+8=85
+
+減る筈？が、110/85 倍に増えてしまった。
