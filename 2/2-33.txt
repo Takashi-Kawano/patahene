@@ -1,0 +1,8 @@
+スタックポインタのアドレスが、0x7ffffffc なので、
+12bitとかとるなら
+0x7ffffffc
+0x7ffffff8
+0x7ffffff4
+0x7ffffff0
+
+といった具合にメモリ領域を確保する
